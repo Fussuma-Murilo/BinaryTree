@@ -15,16 +15,16 @@ public class Node {
         return rightNode;
     }
 
-    public void setRightNode(Node rightNode) {
-        this.rightNode = rightNode;
+    public void setRightNode(String content) {
+        this.rightNode = new Node(content);
     }
 
     public Node getLeftNode() {
         return leftNode;
     }
 
-    public void setLeftNode(Node leftNode) {
-        this.leftNode = leftNode;
+    public void setLeftNode(String content) {
+        this.leftNode = new Node(content);
     }
 
     public Node (String content){
