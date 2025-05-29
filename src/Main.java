@@ -10,6 +10,8 @@ public class Main {
 
         System.out.println(tree.countNodes());
         tree.runList("InOrder", "Non");
+        System.out.println(tree.countLeafNodesR(tree.getMainNode()));
+        System.out.println(tree.countLeafNodes());
 
     }
 }

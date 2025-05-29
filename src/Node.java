@@ -2,6 +2,7 @@ public class Node {
     private String content;
     private Node rightNode;
     private Node leftNode;
+    private Integer fator;
 
     public String getContent() {
         return content;

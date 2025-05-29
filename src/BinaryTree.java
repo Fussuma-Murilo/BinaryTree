@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 public class BinaryTree {
 
@@ -107,6 +109,7 @@ public class BinaryTree {
     private void runPreOrder(Node node){
         List<Node> list = new ArrayList<>(countNodes());
 
+        
 
 
     }
@@ -124,6 +127,43 @@ public class BinaryTree {
     }
 
     private void runInLevel(Node node){
+        if (mainNode == null) return;
 
+        Queue<Node> queue = new LinkedList<>();
+
+        while (!queue.isEmpty()){
+
+        }
+    }
+
+    public Integer countLeafNodesR(Node node){
+        Integer count = 0;
+        if(node != null) {
+            if (node.getLeftNode() == null && node.getRightNode() == null) {
+                return 1;
+            } else {
+                count += countLeafNodesR(node.getRightNode());
+                count += countLeafNodesR(node.getLeftNode());
+                return count;
+            }
+        }
+        return 0;
+    }
+
+    public Integer countLeafNodes(){
+        if (mainNode == null) return 0;
+        Integer count = 0;
+
+        Queue<Node> queue = new LinkedList<>();
+        queue.add(mainNode);
+
+        while (!queue.isEmpty()){
+            Node current = queue.poll();
+            if (current.getLeftNode() == null && current.getRightNode() == null) count++;
+
+            if (current.getLeftNode() != null) queue.add(current.getLeftNode());
+            if (current.getRightNode() != null) queue.add(current.getRightNode());
+        }
+        return count;
     }
 }
