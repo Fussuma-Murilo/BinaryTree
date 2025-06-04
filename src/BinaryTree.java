@@ -109,7 +109,7 @@ public class BinaryTree {
     private void runPreOrder(Node node){
         List<Node> list = new ArrayList<>(countNodes());
 
-        
+
 
 
     }

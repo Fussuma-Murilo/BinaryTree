@@ -1,17 +1,15 @@
 public class Main {
     public static void main(String[] args) {
 
-        BinaryTree tree = new BinaryTree("A");
-        tree.getMainNode().setLeftNode("B");
-        tree.getMainNode().setRightNode("C");
-        tree.getMainNode().getLeftNode().setLeftNode("D");
-        tree.getMainNode().getLeftNode().setRightNode("E");
-        tree.getMainNode().getRightNode().setRightNode("F");
+        AVLTree tree = new AVLTree();
 
-        System.out.println(tree.countNodes());
-        tree.runList("InOrder", "Non");
-        System.out.println(tree.countLeafNodesR(tree.getMainNode()));
-        System.out.println(tree.countLeafNodes());
+        tree.Insert(5, null);
+        tree.Insert(6, null);
+        tree.Insert(4, null);
+        tree.Insert(7, null);
+
+        tree.runPreOrderR(tree.mainNode);
+
 
     }
 }
