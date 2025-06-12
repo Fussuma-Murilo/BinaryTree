@@ -1,58 +1,82 @@
 public class AVLTree {
-    public NodeAVL mainNode;
+    NodeAVL mainNode;
 
     public AVLTree() {
         this.mainNode = null;
     }
 
-    public void Insert(Integer content, NodeAVL node) {
-        if (mainNode == null || mainNode.getLeftNode() == null || mainNode.getRightNode() == null) {
-            if (mainNode == null) mainNode = new NodeAVL(content);
-            if (mainNode.getContent() >= content && mainNode.getLeftNode() == null) mainNode.setLeftNode(content);
-            if (mainNode.getRightNode() == null) mainNode.setRightNode(content);
-            return;
-        } else { //Os nós ligados à raiz não estão disponíveis
-             if (node == null) {
-                 Insert(content, mainNode.getLeftNode());
-                 Insert(content, mainNode.getRightNode());
-                 return;
-             }
+    Integer height(NodeAVL node){
+        if (node == null) return 0;
+        return node.getHeight();
+    }
 
-             if (node.getContent() >= content) {
-                 if (node.getLeftNode() == null) {
-                     node.setLeftNode(content);
-                     return;
-                 } else {
-                     Insert(content, node.getLeftNode());
-                     return;
-                 }
-             } else {
-                 if (node.getRightNode() == null) node.setRightNode(content);
-             }
-            }
+    Integer BalanceFactor(NodeAVL node){
+        if (node == null) return 0;
+        return height(node.getLeftNode()) - height(node.getRightNode());
+    }
+
+    NodeAVL RightRotation (NodeAVL x) {
+        NodeAVL y = x.getLeftNode();
+        NodeAVL z = y.getRightNode();
+
+        y.setRightNode(x);
+        x.setLeftNode(z);
+
+        x.setHeight(Math.max(height(x.getLeftNode()), height(x.getRightNode())));
+        y.setHeight(Math.max(height(y.getLeftNode()), height(y.getRightNode())));
+
+        return y;
+    }
+
+    NodeAVL LeftRotation (NodeAVL x) {
+        NodeAVL y = x.getRightNode();
+        NodeAVL z = y.getLeftNode();
+
+        y.setLeftNode(x);
+        x.setRightNode(z);
+
+        x.setHeight(Math.max(height(x.getLeftNode()), height(x.getRightNode())));
+        y.setHeight(Math.max(height(y.getLeftNode()), height(y.getRightNode())));
+
+        return y;
+    }
+
+    public NodeAVL InsertNode(Integer content, NodeAVL node) {
+        if (node == null) return new NodeAVL (content);
+
+        if (content < node.getContent()) {
+            node.setLeftNode(InsertNode(content, node.getLeftNode()));
+        }
+        else if (content > node.getContent()) {
+            node.setRightNode(InsertNode(content, node.getRightNode()));
+        } else {
+            return node;
         }
 
-//    public void Insert(Integer content, NodeAVL node) {
-//        if (mainNode == null) {
-//            mainNode = new NodeAVL(content);
-//            return;
-//        } else {
-//            if (mainNode.getContent() >= content && mainNode.getLeftNode() == null) {
-//                mainNode.setLeftNode(content);
-//                return;
-//            } else if (mainNode.getRightNode() == null) {
-//                mainNode.setRightNode(content);
-//                return;
-//            } else { //Os nós ligados à raiz não estão disponíveis
-//                if (node == null) {
-//                    Insert(content, mainNode);
-//                    return;
-//                }
-//                NodeAVL aux = mainNode;
-//                if (true){}
-//            }
-//        }
-//    }
+        node.setHeight(1 + Math.max(height(node.getLeftNode()), height(node.getRightNode())));
+
+        Integer balance = BalanceFactor(node);
+
+        if (balance > 1 && content < node.getLeftNode().getContent()) {
+            return RightRotation(node);
+        }
+
+        if (balance < -1 && content > node.getRightNode().getContent()) {
+            return LeftRotation(node);
+        }
+
+        if (balance > 1 && content > node.getLeftNode().getContent()) {
+            node.setLeftNode(LeftRotation(node.getLeftNode()));
+            return RightRotation(node);
+        }
+
+        if (balance < -1 && content < node.getRightNode().getContent()){
+            node.setRightNode(RightRotation(node.getRightNode()));
+            return LeftRotation(node);
+        }
+
+        return node;
+    }
 
     public void runPreOrderR(NodeAVL node) {
         if (node != null) {
